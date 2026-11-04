@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "sequence": [
+    "Producer",
+    "Rte_Write_Status",
+    "Consumer",
+    "Rte_Read_Status",
+    "Target"
+  ],
+  "candidates": [
+    {
+      "entry": "Harness",
+      "priority": 1,
+      "conditions": [
+        "NOT (status == 1)",
+        "NOT (status == 2)"
+      ],
+      "events": [
+        {
+          "function": "Harness",
+          "arguments": "",
+          "caller": null
+        },
+        {
+          "function": "Producer",
+          "arguments": "",
+          "caller": "Harness"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Consumer",
+          "arguments": "",
+          "caller": "Harness"
+        },
+        {
+          "function": "Rte_Read_Status",
+          "arguments": "& status",
+          "caller": "Consumer"
+        },
+        {
+          "function": "Target",
+          "arguments": "",
+          "caller": "Consumer"
+        }
+      ],
+      "matched_prefix": 5,
+      "status": "order_candidate"
+    },
+    {
+      "entry": "Harness",
+      "priority": 2,
+      "conditions": [
+        "NOT (status == 1)",
+        "status == 2"
+      ],
+      "events": [
+        {
+          "function": "Harness",
+          "arguments": "",
+          "caller": null
+        },
+        {
+          "function": "Producer",
+          "arguments": "",
+          "caller": "Harness"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Consumer",
+          "arguments": "",
+          "caller": "Harness"
+        },
+        {
+          "function": "Rte_Read_Status",
+          "arguments": "& status",
+          "caller": "Consumer"
+        },
+        {
+          "function": "Fallback",
+          "arguments": "",
+          "caller": "Consumer"
+        }
+      ],
+      "matched_prefix": 4,
+      "status": "partial"
+    },
+    {
+      "entry": "Harness",
+      "priority": 3,
+      "conditions": [
+        "status == 1"
+      ],
+      "events": [
+        {
+          "function": "Harness",
+          "arguments": "",
+          "caller": null
+        },
+        {
+          "function": "Producer",
+          "arguments": "",
+          "caller": "Harness"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Consumer",
+          "arguments": "",
+          "caller": "Harness"
+        },
+        {
+          "function": "Rte_Read_Status",
+          "arguments": "& status",
+          "caller": "Consumer"
+        },
+        {
+          "function": "Fallback",
+          "arguments": "",
+          "caller": "Consumer"
+        }
+      ],
+      "matched_prefix": 4,
+      "status": "partial"
+    }
+  ],
+  "unknown": [],
+  "rte_links": [
+    {
+      "read": {
+        "function": "Rte_Read_Status",
+        "arguments": "& status",
+        "caller": "Consumer"
+      },
+      "write_candidates": [
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        }
+      ],
+      "basis": "name suffix only; ARXML mapping and schedule unverified"
+    },
+    {
+      "read": {
+        "function": "Rte_Read_Status",
+        "arguments": "& status",
+        "caller": "Consumer"
+      },
+      "write_candidates": [
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        }
+      ],
+      "basis": "name suffix only; ARXML mapping and schedule unverified"
+    },
+    {
+      "read": {
+        "function": "Rte_Read_Status",
+        "arguments": "& status",
+        "caller": "Consumer"
+      },
+      "write_candidates": [
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        },
+        {
+          "function": "Rte_Write_Status",
+          "arguments": "3",
+          "caller": "Producer"
+        }
+      ],
+      "basis": "name suffix only; ARXML mapping and schedule unverified"
+    }
+  ],
+  "execution_verified": false,
+  "ct_2025_review": [
+    "Select entry/runnable and preserve manual invocation order.",
+    "Review each symbolic guard; assign inputs/globals and RTE stub outputs manually.",
+    "Conditions use source names, not SSA: mutations, aliases and side effects are unresolved.",
+    "Name-matched RTE writers are data candidates, never runnable call edges.",
+    "Review RTE return status, output-pointer values and buffering/scheduler behavior.",
+    "Stub external dependencies only; do not stub target functions being measured.",
+    "Verify calls, order, values and coverage in CT 2025; no vendor API/export is assumed."
+  ]
+}
